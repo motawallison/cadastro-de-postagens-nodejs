@@ -2,18 +2,18 @@
 const express = require("express");
 const app = express();
 const handlebars = require('express-handlebars');
-const Sequelize = require('sequelize');
+
 
 //config
 //template engine
 app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}))
 app.set('view engine', 'handelbars');
 
-//conexao com banco MySql
-const sequelize = new Sequelize('cadastro_hml', 'root', 'senha@1', {
-    host: "localhost",
-    dialect: 'mysql'
-});
+//Body Parser
+app.use(express.urlencoded({extended: false}))
+app.use(express.json())
+
+
 
 //criando rotas
 app.get("/cad", function(req, res){
@@ -21,7 +21,7 @@ app.get("/cad", function(req, res){
     })
 
 app.post('/add', function(req, res){
-    res, send('Postagem recebida!')
+    res.send(`Titulo: ${req.body.titulo}. Conteúdo: ${req.body.conteudo}`)
 })
 
 
