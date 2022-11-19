@@ -15,6 +15,16 @@ const sequelize = new Sequelize('cadastro_hml', 'root', 'senha@1', {
     dialect: 'mysql'
 });
 
+//criando rotas
+app.get("/cad", function(req, res){
+    res.render('formulario.handlebars')
+    })
+
+app.post('/add', function(req, res){
+    res, send('Postagem recebida!')
+})
+
+
 //cria a porta do servidor
 app.listen(4003, function(){
     console.log('Servidor rodando na url: http://localhost:4003')
