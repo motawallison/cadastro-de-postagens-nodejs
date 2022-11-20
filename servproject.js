@@ -14,13 +14,12 @@ app.set('view engine', 'handelbars');
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
-
-
 //criando rotas
 app.get('/', function(req, res){
-    res.render('home.handlebars')
+    Post.findAll({order: [['id', 'DESC']]}).then(function(posts){
+        res.render('home.handlebars', {posts: posts})
+    })
 })
-
 
 app.get('/cad', function(req, res){
     res.render('formulario.handlebars')
@@ -33,10 +32,19 @@ app.post('/add', function(req, res){
     }).then(function(){
         res.redirect('/')
     }).catch(function(erro){
-        res.send("Houve um erro "+erro)
+        res.send(`Houve um erro ${erro}`)
     })
 })
  
+app.get('/deletar/:id', function(req, res){
+    Post.destroy({where: {
+        'id': req.params.id
+    }}).then(function(){
+        res.redirect('/')
+    }).catch(function(erro){
+        res.send(`Houve um erro ${erro}`)
+    })
+})
 
 //cria a porta do servidor
 app.listen(4003, function(){
